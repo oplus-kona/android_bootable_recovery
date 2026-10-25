@@ -42,6 +42,9 @@ func printCustomThemeWarning(theme string, location string) {
 
 func copyThemeResources(ctx android.BaseContext, dirs []string, files []string) {
 	outDir := ctx.Config().Getenv("OUT")
+	if !path.IsAbs(outDir) {
+		outDir = path.Join(getBuildAbsDir(ctx), outDir)
+	}
 	twRes := outDir + "/recovery/root/twres/"
 	os.MkdirAll(twRes, os.ModePerm)
 	recoveryDir := getRecoveryAbsDir(ctx)
@@ -174,6 +177,9 @@ func copyThemeResources(ctx android.BaseContext, dirs []string, files []string) 
 
 func copyCustomTheme(ctx android.BaseContext, customTheme string) {
 	outDir := ctx.Config().Getenv("OUT")
+	if !path.IsAbs(outDir) {
+		outDir = path.Join(getBuildAbsDir(ctx), outDir)
+	}
 	twRes := outDir + "/recovery/root/twres/"
 	os.MkdirAll(twRes, os.ModePerm)
 	fileDest := twRes + path.Base(customTheme)
